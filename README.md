@@ -26,7 +26,7 @@ For now a simple CLI chatbot and a frontend app at some point
 
 ## Authors
 
-ex. [@QuietMonkey](https://github.com/QuietMonkey)
+[@QuietMonkey](https://github.com/QuietMonkey)
 
 ## Version History
 
