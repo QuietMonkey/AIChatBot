@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import OpenAI from 'openai';
 import styled from 'styled-components';
+
+import Bubble from './Bubble';
+import DotLoader from './DotLoader';
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,14 +23,6 @@ const ChatContainer = styled.div`
   }
 `;
 
-const Chat = styled.p<{ isUser: boolean }>`
-  background: ${({ isUser }) => isUser ? '#b0b0b0' : '#80a1c1'};
-  align-self: ${({ isUser }) => isUser ? 'flex-start' : 'flex-end'};
-  max-width: 45%;
-  padding: 16px;
-  border-radius: 8px;
-`;
-
 const TextForm = styled.form`
   width: 100%;
   margin-top: 32px;
@@ -44,20 +39,28 @@ const openai = new OpenAI({
 	dangerouslyAllowBrowser: true
 });
 
-const mock = [
-	{ content: 'bonjour', role: 'user' },
-	{ content: 'bonjour', role: 'assistant' },
-	{ content: 'Comment est ton nom?', role: 'user' },
-	{ content: 'Quoi?', role: 'assistant' },
-	{ content: 'Pardon je parle difficilement le français', role: 'user' }
-];
-
 const App = () => {
 	const [userInput, setUserInput] = useState('');
-	const [messages, setMessages] = useState<Array<{ content: string, role: 'user' | 'assistant' }>>(mock);
+	const [messages, setMessages] = useState<Array<{ content: string, role: 'user' | 'assistant' }>>([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	const focusOnInput = () => {
+		window.scroll({
+			top: window.document.body.scrollHeight,
+			behavior: 'smooth',
+		});
+		inputRef.current?.focus();
+	};
+
+	useEffect(() => {
+		if (!isLoading) {
+			focusOnInput();
+		}
+	}, [isLoading]);
 
 	const addMessage = (content: string, role: 'user' | 'assistant') => {
+		console.log('inputRefRef', inputRef.current);
 		const chat = messages;
 		chat.push({ content, role });
 		setMessages(chat);
@@ -95,15 +98,16 @@ const App = () => {
 			<h1>Toi aussi viens discuter avec Chantale</h1>
 			<ChatContainer>
 				{messages.map((message, index) =>
-					<Chat key={index} isUser={message.role === 'user'}>{message.content}</Chat>
+					<Bubble isUser={message.role === 'user'} key={index}>{message.content}</Bubble>
 				)}
 				{isLoading && (
-					<Chat isUser={false}>
-						<i>{isLoading ? 'Typing' : ''}</i>
-					</Chat>
+					<Bubble isUser={false}>
+						<DotLoader />
+					</Bubble>
 				)}
 				<TextForm action="" onSubmit={async (e) => { await chat(e, userInput); }}>
 					<TextInput
+						ref={inputRef}
 						type="text"
 						name="message"
 						autoComplete='off'
