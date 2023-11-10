@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import OpenAI from 'openai';
 import styled from 'styled-components';
 
 import Bubble from './Bubble';
@@ -23,6 +22,11 @@ const ChatContainer = styled.div`
   }
 `;
 
+const Chat = styled.p`
+  order: 1;
+  margin: 0;
+`;
+
 const TextForm = styled.form`
   width: 100%;
   margin-top: 32px;
@@ -33,11 +37,6 @@ const TextInput = styled.input`
   padding: 16px;
   border-radius: 8px;
 `;
-
-const openai = new OpenAI({
-	apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-	dangerouslyAllowBrowser: true
-});
 
 const App = () => {
 	const [userInput, setUserInput] = useState('');
@@ -78,17 +77,22 @@ const App = () => {
 		addMessage(userInput, 'user');
 		setUserInput('');
 
-		console.log('messages in chat func', messages);
-
-		await openai.chat.completions.create({
-			messages: [{ role: 'system', content: 'You are Chantale a witty assistant that answer with facts and a sassy and sarcastic tone. You should be pretty agressive with your answer like you can\'t stand all those questions.' }, ...messages],
-			model: 'gpt-3.5-turbo'
-		}).then((res) => {
-			console.log('res', res);
-			if (res?.choices[0]?.message?.content !== null) {
-				addMessage(res.choices[0].message.content, 'assistant');
-			}
-		}).catch((error) => { console.log('error:', error); });
+		fetch('http://localhost:8000/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				messages,
+			}),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				addMessage(data.output, 'assistant');
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	console.log('messages', messages);
@@ -98,7 +102,7 @@ const App = () => {
 			<h1>Toi aussi viens discuter avec Chantale</h1>
 			<ChatContainer>
 				{messages.map((message, index) =>
-					<Bubble isUser={message.role === 'user'} key={index}>{message.content}</Bubble>
+					<Bubble isUser={message.role === 'user'} key={index}><Chat>{message.content}</Chat></Bubble>
 				)}
 				{isLoading && (
 					<Bubble isUser={false}>
@@ -112,7 +116,7 @@ const App = () => {
 						name="message"
 						autoComplete='off'
 						value={userInput}
-						placeholder="Type a message here and hit Enter..."
+						placeholder="Your message here and hit Enter..."
 						onChange={(e) => { setUserInput(e.target.value); }}
 						disabled={isLoading}
 					/>

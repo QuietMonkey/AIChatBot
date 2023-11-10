@@ -18,11 +18,6 @@ const BubbleWrapper = styled.div<{isUser: boolean}>`
   ${shadow};
 `;
 
-const Chat = styled.p`
-  order: 1;
-  margin: 0;
-`;
-
 const Tail = styled.span<{isUser: boolean}>`
   width: 12px;
   min-width: 12px;
@@ -47,7 +42,7 @@ type Props = {
 const Bubble = ({children, isUser}: Props) => {
 	return(
 		<BubbleWrapper isUser={isUser}>
-			<Chat>{children}</Chat>
+			{children}
 			<Tail isUser={isUser}></Tail>
 		</BubbleWrapper>
 	);
