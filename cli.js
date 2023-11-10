@@ -3,7 +3,6 @@ import readline from "readline";
 
 import 'dotenv/config'
 
-
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -17,7 +16,7 @@ userInterface.prompt();
 
 userInterface.on("line", async (input) => {
   await openai.chat.completions.create({
-    messages: [{ role: "system", content: input }],
+    messages: [{ role: "user", content: input }],
     model: "gpt-3.5-turbo",
   })
     .then((res) => {

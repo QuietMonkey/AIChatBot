@@ -21,7 +21,7 @@ For now a simple CLI chatbot and a frontend app at some point
 
 ### Executing program
 
-* node index
+* npm run cli
 * Then you can begin the discussion in CLI
 
 ## Authors
