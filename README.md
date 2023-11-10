@@ -4,7 +4,7 @@ Test of openAI SDK to create a basic chat bot.
 
 ## Description
 
-For now a simple CLI chatbot and a frontend app at some point
+Vite frontend chatbot app with node server to do the openAI requests
 
 ## Getting Started
 
@@ -15,14 +15,16 @@ For now a simple CLI chatbot and a frontend app at some point
 
 ### Installing
 
-* Ensure that you have the correct node version
-* npm i
-* create .env file in root and put your OPENAI_API_KEY
+* Clone the project on your local machine
+* Ensure that you have the correct node version (can be done automaticly with nvm)
+* Create .env file in server and put your OPENAI_API_KEY
+* npm i in root
 
 ### Executing program
 
-* npm run cli
-* Then you can begin the discussion in CLI
+* npm run start in root
+* Server is listening on port 8000
+* Client is available on http://localhost:5173/
 
 ## Authors
 
@@ -32,3 +34,5 @@ For now a simple CLI chatbot and a frontend app at some point
 
 * 0.1
     * ChatBot CLI
+* 1.0
+    * Vite/React ChatBot app with backend Node server

@@ -1,0 +1,17 @@
+{
+  "name": "ai_chatbot",
+  "version": "1.0.0",
+  "description": "An openAI chatbot test",
+  "scripts": {
+    "client": "cd chatbot && npm run dev",
+    "client:install": "cd chatbot && npm i",
+    "server": "cd server && npm start",
+    "server:install": "cd server && npm i",
+    "install": "npm run client:install && npm run server:install",
+    "start": "concurrently \"npm run client\" \"npm run server\" ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
