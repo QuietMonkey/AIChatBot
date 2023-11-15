@@ -1,13 +1,16 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
+import {colors} from './colors';
+import { fadeIn } from './animations';
+
 
 const shadow = css`
   box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.05);
 `;
 
 const BubbleWrapper = styled.div<{isUser: boolean}>`
-  background: ${({ isUser }) => isUser ? '#80A1C1' : '#9EADBD'};
+  background: ${({ isUser }) => isUser ? colors.bg_light : colors.highlight};
   align-self: ${({ isUser }) => isUser ? 'flex-start' : 'flex-end'};
   max-width: 85%;
   padding: 16px;
@@ -16,13 +19,14 @@ const BubbleWrapper = styled.div<{isUser: boolean}>`
   margin: 8px 0;
 
   ${shadow};
+  ${fadeIn}
 `;
 
 const Tail = styled.span<{isUser: boolean}>`
   width: 12px;
   min-width: 12px;
   height: 12px;
-  background: ${({ isUser }) => isUser ? '#80a1c1' : '#9EADBD'};
+  background: ${({ isUser }) => isUser ? colors.bg_light : colors.highlight};
   position: relative;
   display: inline-block;
   order: ${({ isUser }) => isUser ? '0' : '2'};
@@ -42,7 +46,9 @@ type Props = {
 const Bubble = ({children, isUser}: Props) => {
 	return(
 		<BubbleWrapper isUser={isUser}>
-			{children}
+			<div>
+				{children}
+			</div>
 			<Tail isUser={isUser}></Tail>
 		</BubbleWrapper>
 	);
