@@ -46,9 +46,7 @@ type Props = {
 const Bubble = ({children, isUser}: Props) => {
 	return(
 		<BubbleWrapper isUser={isUser}>
-			<div>
-				{children}
-			</div>
+			{children}
 			<Tail isUser={isUser}></Tail>
 		</BubbleWrapper>
 	);
