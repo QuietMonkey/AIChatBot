@@ -28,6 +28,8 @@ const ChatContainer = styled.div`
   @media (min-width: 768px) {
     width: 60%;
   }
+
+	transition: height .4 ease;
 `;
 
 const Title = styled.h1`
@@ -46,7 +48,7 @@ const ChantalSVG = styled.img<{isTitle: boolean}>`
 	position: relative;
 	left: ${({isTitle}) => isTitle ? '-50px' : '28px'};
 
-	transition: all .7s ease;
+	transition: all .4s ease;
 
 	@media (min-width: 768px) {
 		width: ${({isTitle}) => isTitle ? '240px' : '85px'};
@@ -175,10 +177,10 @@ const App = () => {
 		return (
 			<div>
 				<Bubble isUser={false}>
-					<>
+					<div>
 						<Title>Bonjour petit bolide</Title>
 						<SubTitle>Toi aussi ! viens discuter avec Chantale</SubTitle>
-					</>
+					</div>
 				</Bubble>
 			</div>
 		);
